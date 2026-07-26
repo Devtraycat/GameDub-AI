@@ -6,13 +6,13 @@ pygetwindow>=0.0.9      # sadece "window" modu için (Windows'ta en stabil)
 rapidocr-onnxruntime>=1.3.0
 # Yedek: pytesseract>=0.3.10, opencv-python>=4.9.0  (+ sistemde tesseract-ocr kurulu olmalı)
 
-# Çeviri
+# Çeviri (varsayılan zincir: argos -> deepl -> google)
 argostranslate>=1.9.6
-# Yedek (internetli, daha kaliteli): deep-translator>=1.11.4
+deepl>=1.18.0           # opsiyonel, DEEPL_API_KEY gerekir
+deep-translator>=1.11.4 # opsiyonel, google fallback için
 
-# TTS (varsayılan: edge-tts, internet gerektirir, Türkçe kalitesi çok iyi)
+# TTS (varsayılan zincir: edge_tts -> pyttsx3)
 edge-tts>=6.1.0
-# Tamamen offline yedek (internet yoksa, kalite daha robotik):
 pyttsx3>=2.90
 
 # Ses çalma

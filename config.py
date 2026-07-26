@@ -31,7 +31,10 @@ class AnalyzerConfig:
 
 @dataclass
 class TranslationConfig:
-    engine: str = "argos"          # plugins/translator/ içindeki dosya adına karşılık gelir
+    # v1.5: tek sağlayıcı yerine öncelik sırasına göre fallback zinciri.
+    # Argos başarısız olursa (dil paketi kurulmamışsa vb.) DeepL'e, o da
+    # başarısız olursa Google'a düşer.
+    engine: list = field(default_factory=lambda: ["argos", "deepl", "google"])
     source_lang: str = "en"
     target_lang: str = "tr"
 
@@ -41,6 +44,7 @@ class SpeakerConfig:
     max_speakers: int = 4
     name_pattern: str = r"^([A-ZÇĞİÖŞÜ][a-zçğıöşü]+):\s*(.*)$"
     alternate_fallback: bool = True   # isim yoksa dönüşümlü konuşmacı varsayımı
+    color_tolerance: float = 40.0     # v1.5: renk eşleştirmede izin verilen öklid mesafesi
 
 
 @dataclass
@@ -52,9 +56,9 @@ class VoiceProfile:
 
 @dataclass
 class VoiceConfig:
-    engine: str = "edge_tts"       # plugins/tts/ içindeki dosya adına karşılık gelir
-                                     # "edge_tts": PyTorch YOK, internet gerekir, Türkçe kalitesi çok iyi (varsayılan)
-                                     # "pyttsx3": PyTorch YOK, tamamen offline, kalite robotik (internet yoksa yedek)
+    # v1.5: tek motor yerine öncelik sırasına göre fallback zinciri.
+    # edge_tts başarısız olursa (ör. internet yoksa) otomatik pyttsx3'e düşer.
+    engine: list = field(default_factory=lambda: ["edge_tts", "pyttsx3"])
     profiles: dict = field(default_factory=lambda: {
         "A": VoiceProfile("A", pitch=-1.0, speed=0.98),
         "B": VoiceProfile("B", pitch=1.0, speed=1.03),
