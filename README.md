@@ -57,7 +57,7 @@ olmayı hedefliyor — oyunun kodune dokunmadan, tamamen dışarıdan.
 ## Kurulum
 
 ```bash
-git clone https://github.com/kullanici-adi/gamedub-ai.git
+git clone https://github.com/Devtraycat/GameDub-AI.git
 cd gamedub-ai
 
 python -m venv venv
@@ -152,7 +152,7 @@ Bu proje [MIT lisansı](LICENSE) ile lisanslanmıştır.
 
 ## İletişim
 
-**[Adınız Soyadınız]**
+**[DevTrayCat]**
 [![GitHub](https://img.shields.io/badge/GitHub-%40kullanici--adi-181717?logo=github)](https://github.com/kullanici-adi)
 [![Email](https://img.shields.io/badge/Email-iletisim%40example.com-red?logo=gmail)](mailto:iletisim@example.com)
 
