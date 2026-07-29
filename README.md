@@ -269,5 +269,5 @@ her geri bildirim değerlidir.
 ---
 
 <div align="center">
-  <sub>OCR → Çeviri → Dublaj döngüsünü kırmak isteyen oyuncular için ❤️ ile yapıldı.</sub>
+  <sub>Oyunlarda dil briyerini kırmak isteyen oyuncular için ❤️ ile yapıldı.</sub>
 </div>
