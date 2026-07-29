@@ -7,9 +7,12 @@ OCR'nin ürettiği ham metni normalize eder, tekrarları eler, kararlı
 "Hello.", "Hello...", "HELLO", "Hello!" hepsi aynı cümleye indirgenir.
 """
 
+import logging
 import re
 import difflib
 from collections import deque
+
+log = logging.getLogger(__name__)
 
 
 def normalize(text: str) -> str:
@@ -26,6 +29,23 @@ class SubtitleAnalyzer:
         self._recent = deque(maxlen=config.max_history)
         self._pending_text = None
         self._pending_count = 0
+
+        # v1.6: isim etiketi artık metnin BAŞINDA olmak zorunda değil.
+        # Eskiden `re.match(r"^İsim: ...$")` kullanılıyordu; bu, OCR'nin
+        # birden fazla kutuyu (ör. isim etiketi + diyalog kutusu) tek bir
+        # satırda birleştirdiği ya da isim etiketinin altyazının hemen
+        # başında değil ortasında/başka bir öğeden sonra çıktığı durumlarda
+        # hiç eşleşmiyordu -> konuşmacı hep "isimsiz" (renk/dönüşümlü)
+        # yoluna düşüyor, ton hep aynı kalıyordu. `re.search` ile, desen
+        # metnin neresinde geçerse geçsin yakalanır.
+        pattern = getattr(config, "name_pattern", None) or (
+            r"([A-ZÇĞİÖŞÜ][a-zçğıöşüÇĞİÖŞÜ]*)\s*:\s*(.+)"
+        )
+        try:
+            self._name_re = re.compile(pattern)
+        except re.error:
+            log.warning("Geçersiz isim etiketi deseni (%r), varsayılana dönülüyor.", pattern)
+            self._name_re = re.compile(r"([A-ZÇĞİÖŞÜ][a-zçğıöşüÇĞİÖŞÜ]*)\s*:\s*(.+)")
 
     def _is_similar(self, a: str, b: str) -> bool:
         if not a or not b:
@@ -50,9 +70,12 @@ class SubtitleAnalyzer:
         norm = normalize(raw_text)
         color = ocr_results[0].get("color")
 
-        # İsim satırı ayrı mı geldi? ör: "John" sonra "Hello."
+        # İsim etiketi tespiti: "John: Hello." gibi, metnin başında olması
+        # ZORUNLU değil - OCR birden fazla kutuyu birleştirdiğinde ("HUD John:
+        # Hello." gibi) veya isim ayrı bir satırda gelip diğer metinle
+        # birleştiğinde de yakalanır (bkz. __init__ - re.search, anchor yok).
         name = None
-        name_match = re.match(r"^([A-ZÇĞİÖŞÜ][a-zçğıöşü]+):\s*(.*)$", raw_text)
+        name_match = self._name_re.search(raw_text)
         if name_match:
             name = name_match.group(1)
             raw_text = name_match.group(2)

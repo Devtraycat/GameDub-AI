@@ -37,14 +37,17 @@ class CacheEngine:
         with open(full_path, "rb") as f:
             return f.read()
 
-    def put(self, normalized_text: str, voice_id: str, wav_bytes: bytes) -> None:
+    def put(self, normalized_text: str, voice_id: str, audio_bytes: bytes) -> None:
         if not self.config.enabled:
             return
         key = self._key(normalized_text, voice_id)
-        rel_path = f"{key}.wav"
+        # Uzantı ".audio": TTS motoruna göre WAV ya da MP3 olabilir (ör. edge-tts
+        # MP3 döndürür, pyttsx3 WAV döndürür); soundfile ikisini de içerikten
+        # anlayıp çözebildiği için burada format varsaymaya gerek yok.
+        rel_path = f"{key}.audio"
         full_path = os.path.join(self.config.dir, rel_path)
         with open(full_path, "wb") as f:
-            f.write(wav_bytes)
+            f.write(audio_bytes)
 
         if len(self._index) >= self.config.max_entries:
             # basit LRU değil ama sınırı aşınca en eskiyi at

@@ -38,6 +38,27 @@ class VoiceEngine:
         self._backends[name] = backend
         return backend
 
+    def preload(self) -> None:
+        """
+        v1.7: Uygulama açılışında (ilk gerçek replikten ÖNCE), arka planda
+        bir thread'den çağrılır. Yalnızca `preload()` metodunu destekleyen
+        motorlar için anlamlıdır (ör. piper - model dosyalarını indirip
+        belleğe yükler, ilk gerçek repliğe binen maliyeti önceden karşılar).
+        Desteklemeyen motorlar (edge_tts, pyttsx3) için no-op'tur.
+        """
+        for name in self._engine_names:
+            try:
+                backend = self._load_backend(name)
+            except Exception:
+                continue
+            preload_fn = getattr(backend, "preload", None)
+            if callable(preload_fn):
+                try:
+                    preload_fn()
+                except Exception:
+                    print(f"[VoiceEngine] '{name}' ön yükleme başarısız (ilk replikte tekrar denenecek).",
+                          file=sys.stderr)
+
     def synthesize(self, text: str, voice_id: str) -> bytes:
         """
         text: Türkçe metin

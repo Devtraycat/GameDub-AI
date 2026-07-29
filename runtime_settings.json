@@ -1,0 +1,16 @@
+{
+  "capture_region": [
+    1071,
+    139,
+    1378,
+    165
+  ],
+  "schema_settings": {
+    "speaker.alternate_fallback": false,
+    "ocr.lang": "tr",
+    "translation.direct_tts": true,
+    "capture.skip_unchanged": false,
+    "ocr.engine": "tesseract",
+    "ocr.tesseract_cmd": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+  }
+}
