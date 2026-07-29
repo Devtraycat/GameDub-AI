@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.svg" width="140" alt="GameDub AI logo" />
+  <img src="assets/logo.png" width="140" alt="GameDub AI logo" />
 
   # GameDub AI
 
