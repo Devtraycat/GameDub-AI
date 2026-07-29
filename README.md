@@ -259,9 +259,9 @@ Bu proje [MIT lisansı](LICENSE) ile lisanslanmıştır.
 
 ## İletişim
 
-**[Adınız Soyadınız]**
-[![GitHub](https://img.shields.io/badge/GitHub-%40kullanici--adi-181717?logo=github)](https://github.com/kullanici-adi)
-[![Email](https://img.shields.io/badge/Email-iletisim%40example.com-red?logo=gmail)](mailto:iletisim@example.com)
+**Dev Tray Cat**
+[![GitHub](https://img.shields.io/badge/GitHub-%40kullanici--adi-181717?logo=github)](https://github.com/Devtraycat(https://github.com/Devtrayca))
+[![Email](https://img.shields.io/badge/Email-batuhangurdu%40gmail.com-red?logo=gmail)](mailto:batuhangurdu@gmail.com)
 
 Bir sorun mu buldunuz ya da bir öneriniz mi var? [Issue açın](../../issues) —
 her geri bildirim değerlidir.
